@@ -97,11 +97,57 @@ X, y = mnist.data, mnist.target.astype(int)
     For PCA, given the analytical closed form, nested, and ordered solution - it makes sense to use supervised optimization. 
     Below I fit 20 mutlinomial classification models on X projected to 5, 10, 15, ..., 100 PCs and evaluate the accuracy of each iteration to inspect convergence.
     </code></pre>
-    <img src="hyperparam_tune_supervised_pca.png" alt="Accuracy Curve">
+    <img src="hyperparam_tune_supervised_pca.png" alt="PCA Accuracy Curve">
 
     These results indicate that there is a convergence between 40 to 60 PCs - this appears to be the optimal number of components to use when performing PCA on MNIST dataset. 
 
     <h2>Non-Negative Matrix Factorization (NMF)</h2>
+
+    <h3> Observations </h3>
+    <p>
+        Unlike PCA, NMF components are not ordered or nested, so we cannot interpret them sequentially by importance. 
+        Below, three arbitrary pairs of components are shown side by side to illustrate how different 2D projections capture various digit groupings without a clear hierarchical structure.
+    </p>
+    <img src="nmf_1x3_components.png" alt="NMF Observation Plot">
+    Because NMF enforces non-negativity, each component contributes additively to the reconstruction of the digits. 
+    Unlike PCA, which can capture opposing directions of variation through positive and negative loadings, NMF contains no conflicting variance patterns. 
+    This yields more interpretable, part-based components, though at the cost of representing only additive structure in the data.
+    Ultimately, the clustering tends to be worse for better interpretation of the patterns.
+
+    <h3> Features </h3>
+    <p>
+        The image below corresponds to the basis components (the H matrix) learned by NMF. 
+        Each component represents a distinct pattern or “building block” that the model has found useful for reconstructing digits. 
+        These can be interpreted as localized parts of digits — for example, strokes, loops, or crossbars — that commonly appear across multiple digits.
+        The second image shows example digits (observations) that have the highest activation scores for each component, derived from the W matrix. 
+        These highlight which digits rely most heavily on each learned part. 
+        For instance, component 9 appears to capture the crossbar pattern of the digit 4, while other components align more directly with complete digit shapes such as 1, 0, or 7.
+        Overall, NMF decomposes the data into additive, non-negative parts that together reconstruct the full images. 
+        While some components resemble entire digits rather than localized features, this behavior is typical for NMF applied to structured image data like MNIST—especially when the number of components is small.
+    </p>
+    <img src="nmf_basis_features.png" alt="NMF Basis Features">
+
+    <p>
+        The image below shows example digits (observations) that have the highest activation scores for each component, derived from the W matrix. 
+        These highlight which digits rely most heavily on each learned part. 
+        For instance, component 9 appears to capture the crossbar pattern of the digit 4, while other components align more directly with complete digit shapes such as 1, 0, or 7.
+        Overall, NMF decomposes the data into additive, non-negative parts that together reconstruct the full images. 
+        While some components resemble entire digits rather than localized features, this behavior is typical for NMF applied to structured image data like MNIST—especially when the number of components is small.
+    </p>
+    <img src="nmf_top_activations_grid.png" alt="NMF Top Activations">
+    <h3> Hyperparameter Tuning </h3>
+    <p>
+        Because NMF must be refit from scratch for each number of components, it is considerably more computationally expensive than PCA. 
+        In practice, a coarse grid provides sufficient resolution to identify the accuracy plateau while keeping runtime manageable.
+    </p>
+    <img src="hyperparam_tune_supervised_nmf.png" alt="NMF Accuracy Curve">
+    <p>
+        Based on the supervised accuracy curve, convergence appears to occur around 50-70 components. 
+        Although this estimate is approximate due to reduced training size and CPU-only computation, it still provides a reasonable range for selecting the optimal dimensionality. 
+        Using the full dataset would require polynomial time in the number of components k and is not computationally viable on standard hardware in a reasonable time frame.
+    </p>
+
+    <h2> Independent Component Analysis (ICA)</h2>
 
     <h3> Observations </h3>
     <p>
@@ -114,8 +160,9 @@ X, y = mnist.data, mnist.target.astype(int)
     </p>
 
     <h3> Hyperparameter Tuning </h3>
-    ...
-
+    <p>
+        ...
+    </p>
   </section>
 
 </body>
