@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unsupervised Machine Learning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1, h2, h3 {
+      color: #222;
+    }
+    img {
+      display: block;
+      margin: 20px auto;
+      max-width: 90%;
+    }
+    pre {
+      background: #f8f8f8;
+      padding: 10px;
+      border-left: 3px solid #ccc;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Unsupervised Machine Learning: MNIST Digits</h1>
+
+  <section id="data-overview">
+    <h2>1. Data Overview</h2>
+    <p>
+        The dataset is readily available within <code>sklearn</code>:
+    </p>
+
+<pre><code class="language-python">
+import pandas as pd
+from sklearn.datasets import fetch_openml
+
+mnist = fetch_openml("mnist_784")
+X, y = mnist.data, mnist.target.astype(int)
+</code></pre>
+
+    <p>
+      <code>X</code> is a dataframe containing 784 features, each representing a pixel in a 28 × 28 image. 
+      There are 70,000 observations (digit images) in the dataset. 
+      Below is a visualization of 25 randomly sampled observations.
+    </p>
+
+    <img src="digits_initial_viz.png" alt="Initial visualization of MNIST digits">
+  </section>
+
+  <section id="linear-methods">
+    <h2>2. Linear Dimension Reduction Techniques</h2>
+    <p>
+      This section applies, compares, and contrasts <strong>PCA</strong>, <strong>NMF</strong>, and <strong>ICA</strong>.
+    </p>
+
+    <h2>Principal Component Analysis (PCA)</h2>
+
+    <h3> Observations </h3>
+    <p>
+      PC1 and PC2 capture latent patterns among digits — some digits (e.g., digit 1) are well separated in this projection.
+      Interpreting PC1 and PC2 by examining observations along these directions yields the visualization below.
+      <img src="pc1_pc2_labeled.png" alt="PC1 vs PC2 Scatterplot">
+    </p>
+
+    <h3> Features </h3>
+    <p>
+      PC2 appears to capture <em>digit thickness</em> — moving from positive to negative PC2, digits become thinner.
+      PC1 captures a subtler pattern, possibly related to <em>digit slant</em>.
+    </p>
+    <img src="pc1_pc2_patterns.png" alt="PC Pattern Interpretation">
+
+    <h3> Hyperparameter Tuning </h3>
+    The number of principal components (PCs) cannot exceed the number of original features. 
+    To determine the optimal number of PCs, we can examine the variance explained using a scree plot and apply the “elbow rule,” 
+    or use more quantitative approaches to tune this hyperparameter. 
+
+    Since labels are available, one practical method is to fit a simple multinomial classifier on progressively larger subsets of the principal components 
+    and track how classification accuracy changes until it stabilizes. 
+    This downstream supervised tuning effectively helps optimize an unsupervised method. 
+    Alternatively, we can evaluate the quality of the reduced representation by comparing how well observations in the reduced space preserve relationships 
+    from the original space, for example using a Jaccard similarity measure.
+    <br><br>
+    For PCA, given the analytical closed form, nested, and ordered solution - it makes sense to use supervised optimization. 
+    Below I fit 20 mutlinomial classification models on X projected to 5, 10, 15, ..., 100 PCs and evaluate the accuracy of each iteration to inspect convergence.
+    </code></pre>
+    <img src="hyperparam_tune_supervised_pca.png" alt="Accuracy Curve">
+
+    These results indicate that there is a convergence between 40 to 60 PCs - this appears to be the optimal number of components to use when performing PCA on MNIST dataset. 
+
+    <h2>Non-Negative Matrix Factorization (NMF)</h2>
+
+    <h3> Observations </h3>
+    <p>
+        ...
+    </p>
+
+    <h3> Features </h3>
+    <p>
+        ...
+    </p>
+
+    <h3> Hyperparameter Tuning </h3>
+    ...
+
+  </section>
+
+</body>
+</html>
