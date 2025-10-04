@@ -1,5 +1,4 @@
-# Supervised Machine Learning
-## MNIST Digit Classification Project
+## MNIST Digit Project
 
 This repository contains my work on classifying MNIST handwritten digits, specifically focusing on distinguishing between digits 3, 5, and 8. I've implemented and compared several classification algorithms:
 
