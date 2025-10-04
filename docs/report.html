@@ -36,10 +36,10 @@
 
 <body>
 
-  <h1>Unsupervised Machine Learning: MNIST Digits</h1>
+  <h1>Machine Learning: MNIST Digits</h1>
 
   <section id="data-overview">
-    <h2>1. Data Overview</h2>
+    <h1>Data Overview</h1>
     <p>
         The dataset is readily available within <code>sklearn</code>:
     </p>
@@ -62,7 +62,7 @@ X, y = mnist.data, mnist.target.astype(int)
   </section>
 
   <section id="linear-methods">
-    <h2>2. Linear Dimension Reduction Techniques</h2>
+    <h1>Linear Dimension Reduction Techniques</h1>
     <p>
       This section applies, compares, and contrasts <strong>PCA</strong>, <strong>NMF</strong>, and <strong>ICA</strong>.
     </p>
@@ -73,7 +73,7 @@ X, y = mnist.data, mnist.target.astype(int)
     <p>
       PC1 and PC2 capture latent patterns among digits — some digits (e.g., digit 1) are well separated in this projection.
       Interpreting PC1 and PC2 by examining observations along these directions yields the visualization below.
-      <img src="pc1_pc2_labeled.png" alt="PC1 vs PC2 Scatterplot">
+      <img src="pc1_pc2_labeled.png" alt="PCA Scatterplot">
     </p>
 
     <h3> Features </h3>
@@ -108,7 +108,7 @@ X, y = mnist.data, mnist.target.astype(int)
         Unlike PCA, NMF components are not ordered or nested, so we cannot interpret them sequentially by importance. 
         Below, three arbitrary pairs of components are shown side by side to illustrate how different 2D projections capture various digit groupings without a clear hierarchical structure.
     </p>
-    <img src="nmf_1x3_components.png" alt="NMF Observation Plot">
+    <img src="nmf_1x3_components.png" alt="NMF Observation Scatterplot">
     Because NMF enforces non-negativity, each component contributes additively to the reconstruction of the digits. 
     Unlike PCA, which can capture opposing directions of variation through positive and negative loadings, NMF contains no conflicting variance patterns. 
     This yields more interpretable, part-based components, though at the cost of representing only additive structure in the data.
@@ -151,19 +151,123 @@ X, y = mnist.data, mnist.target.astype(int)
 
     <h3> Observations </h3>
     <p>
-        ...
+        Visually, the ICA projection appears similar to the PCA projection, with recognizable clusters corresponding to certain digits such as 0 and 1. 
+        This similarity arises because both methods are linear transformations applied to the same data, and the dominant variance structure in MNIST causes the first ICA components to roughly align with the top principal components. 
+        However, the underlying principles differ: PCA seeks orthogonal directions that explain maximum variance, while ICA identifies statistically independent directions in the data. 
+        Thus, although the scatterplots look comparable, ICA components represent independent pixel intensity sources rather than directions of maximal variance.
     </p>
+        
+        
+    
+    <img src="ica12_labeled.png" alt="ICA Observation Scatterplot">
 
-    <h3> Features </h3>
+    <h3>Features</h3>
     <p>
-        ...
+        The image below corresponds to the independent components learned by ICA. 
+        ICA identifies statistically independent contrast patterns rather than purely additive or variance-maximizing directions. 
+        Each component contains both positive and negative pixel weights that together describe how certain regions of the image brighten while others darken. 
+        These opposing effects capture independent structural contrasts—such as the light outer ring and darker inner region of the digit “0”—that collectively reconstruct the visual patterns present in the dataset.
     </p>
+    <img src="ica_feature_patterns.png" alt="ICA Basis Features">
+    
+    <p>
+        The image below shows example digits (observations) that have the highest activation magnitudes for each component. 
+        When examining the learned components, Independent Component 2 shows a strong contrast between the inner and outer regions of the digit, corresponding to the circular structure of “0.” 
+        This is reflected in the second row of the activation grid, where the most responsive digits are all zeros, illustrating how this independent contrast pattern is expressed in the data.
+    </p>
+    <img src="ica_top_activations_grid.png" alt="ICA Top Activations">
+    
 
     <h3> Hyperparameter Tuning </h3>
     <p>
+        ICA runs significantly faster than NMF because its optimization problem is unconstrained and admits an efficient fixed-point solution.
+        As a result, we can test a more exhaustive grid search.
+    </p>
+    <img src="hyperparam_tune_supervised_ica.png" alt="ICA Accuracy Curve">
+    <p>
+        Again, similarly to PCA and NMF the components tend around 40 to 60 before convergence. 
+    </p>
+    
+    <h2> Summary </h2>
+    <p>
+        Across PCA, NMF, and ICA, classification accuracy plateaus between 40 and 60 components. 
+        This consistency reflects the intrinsic dimensionality of the MNIST dataset: although each image has 784 pixels, the true underlying structure of handwritten digits can be described by roughly 50 latent factors capturing shape, curvature, and stroke variations. 
+        Beyond this point, additional components primarily model noise or redundant detail rather than new discriminative information. 
+        Despite differing in formulation - PCA emphasizing variance, NMF enforcing additivity, and ICA seeking independence - all three methods recover a low-dimensional subspace of similar capacity.
+    </p>
+    <br>
+    <p>
+        To identify the linear dimension reduction technique that best separates the classes while incorporating a supervised downstream validation, I use the Adjusted Rand Index (ARI). 
+        ARI quantifies how well the clusters formed in the reduced feature space align with the true digit labels, adjusted for chance grouping. 
+        A higher ARI value indicates stronger agreement between the unsupervised clustering structure and the known class labels, reflecting better class separability.
+    </p>
+    <img src="ari_barplot.png" alt="ARI Scores">
+    <p>
+        Among the three linear dimensionality reduction techniques, PCA is the clear winner. 
+        It achieved the highest Adjusted Rand Index (ARI), indicating the strongest agreement between the unsupervised cluster structure and the true digit labels. 
+        PCA's orthogonal variance-based projection effectively captures the global geometric structure of the MNIST data, producing better digit separation while remaining computationally efficient. 
+        NMF provides more interpretable part-based features, and ICA reveals independent contrast patterns, but both yield lower separability scores compared to PCA.
+    </p>
+        
+
+        
+  </section>
+
+  <section id="nonlinear-methods">
+    <h1>Non-Linear Dimension Reduction Techniques</h1>
+
+    <h2> Kernel PCA </h2>
+
+    <p>
         ...
     </p>
-  </section>
+
+    <h2> Spectral Embedding </h2>
+
+    <p>
+        ...
+    </p>
+
+    <h2> Classical MDS </h2>
+
+    <p>
+        ...
+    </p>
+
+    <h2> Metric MDS </h2>
+    
+    <p>
+        ...
+    </p>
+
+    <h2> t-SNE </h2>
+
+    <p>
+        ...
+    </p>
+
+    <h2> UMAP </h2>
+
+    <p>
+        ...
+    </p>
+
+    <h2> Autoencoder </h2>
+
+    <p>
+        ...
+    </p>
+
+    </section>
+
+    <section id="conclusion">
+        <h1>Conclusion</h1>
+
+        <p>
+            ...
+        </p>
+        
+    </section>
 
 </body>
 </html>
