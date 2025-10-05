@@ -337,9 +337,32 @@ X, y = mnist.data, mnist.target.astype(int)
     <h2> Autoencoder </h2>
 
     <p>
-        ...
+      The autoencoder was implemented as a simple two-layer feedforward network with a linear bottleneck layer, 
+      trained to minimize reconstruction error using mean squared loss. 
+      Unlike the previous manifold learning methods, the autoencoder is an explicit reconstruction-based approach 
+      that learns a nonlinear mapping to compress and reconstruct the input data. 
+      Given computational constraints, no hyperparameter tuning was performed—training was limited to 200 epochs on CPU 
+      with a fixed latent dimensionality of two for visualization.
     </p>
-
+    
+    <img src="autoencoder_training_curve.png" alt="Autoencoder Training Curve">
+    
+    <p>
+      The training curve below shows a rapid decrease in reconstruction loss over the first 50 epochs, 
+      followed by stable convergence near 0.5 MSE, indicating consistent learning and a well-behaved optimization process.
+    </p>
+    
+    <p>
+      The 2D latent representation learned by the encoder is shown below. 
+      Although the model was not explicitly optimized for class separation, 
+      the visualization reveals some degree of structure in the latent space, 
+      with several digits forming partially distinct clusters. 
+      However, compared to methods like t-SNE or UMAP, the separation is less pronounced, 
+      as the objective focuses purely on reconstruction fidelity rather than neighborhood preservation.
+    </p>
+    
+    <img src="autoencoder_latent_2d.png" alt="Autoencoder Latent 2D Representation">
+    
     </section>
 
     <section id="conclusion">
