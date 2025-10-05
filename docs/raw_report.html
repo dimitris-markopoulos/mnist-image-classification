@@ -366,12 +366,34 @@ X, y = mnist.data, mnist.target.astype(int)
     </section>
 
     <section id="conclusion">
-        <h1>Conclusion</h1>
-
-        <p>
-            ...
-        </p>
-        
+      <h1>(Part C) Conclusion</h1>
+    
+      <p>
+        Across all dimensionality reduction methods evaluated, the MNIST digit patterns clearly exhibit <b>nonlinear structure</b>. 
+        Linear techniques such as PCA and ICA failed to produce meaningful separability in the low-dimensional space, while nonlinear 
+        manifold learning methods—particularly <b>UMAP</b> and <b>t-SNE</b>—revealed well-defined digit groupings.
+      </p>
+    
+      <p>
+        Among these, <b>UMAP</b> achieved the best overall performance. 
+        Visually, it produced the most distinct clusters with clear local neighborhood preservation: 
+        digits such as <i>3, 5, and 8</i> were grouped closely together due to their shared curvature and shape, 
+        while more isolated digits such as <i>0</i> and <i>1</i> were mapped far apart. 
+        This demonstrates UMAP’s strong balance between <b>separability and interpretability</b>—it preserves meaningful local 
+        manifold relationships while still maintaining a globally coherent embedding structure.
+      </p>
+    
+      <p>
+        Quantitatively, this conclusion aligns with the <b>Adjusted Rand Index (ARI)</b> evaluation using 
+        <b>K-means clustering</b> on the 2D embeddings of the tuned models. 
+        UMAP achieved the highest ARI (approx 0.51), followed closely by t-SNE (approx 0.47), 
+        while spectral methods, kernel PCA, and linear techniques lagged far behind. 
+        These results confirm that nonlinear embeddings capture the intrinsic geometry of the MNIST data far more effectively 
+        than linear transformations, making <b>UMAP the most suitable choice</b> for this dataset and for similar high-dimensional 
+        pattern recognition problems.
+      </p>
+    
+      <img src="ari_comparison_hist.png" alt="ARI Comparison Across Tuned 2D Embeddings">
     </section>
 
 </body>
