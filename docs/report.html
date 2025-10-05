@@ -62,7 +62,7 @@ X, y = mnist.data, mnist.target.astype(int)
   </section>
 
   <section id="linear-methods">
-    <h1>Linear Dimension Reduction Techniques</h1>
+    <h1>(Section A) Linear Dimension Reduction Techniques</h1>
     <p>
       This section applies, compares, and contrasts <strong>PCA</strong>, <strong>NMF</strong>, and <strong>ICA</strong>.
     </p>
@@ -156,8 +156,6 @@ X, y = mnist.data, mnist.target.astype(int)
         However, the underlying principles differ: PCA seeks orthogonal directions that explain maximum variance, while ICA identifies statistically independent directions in the data. 
         Thus, although the scatterplots look comparable, ICA components represent independent pixel intensity sources rather than directions of maximal variance.
     </p>
-        
-        
     
     <img src="ica12_labeled.png" alt="ICA Observation Scatterplot">
 
@@ -209,12 +207,10 @@ X, y = mnist.data, mnist.target.astype(int)
         NMF provides more interpretable part-based features, and ICA reveals independent contrast patterns, but both yield lower separability scores compared to PCA.
     </p>
         
-
-        
   </section>
 
   <section id="nonlinear-methods">
-    <h1>Non-Linear Dimension Reduction Techniques</h1>
+    <h1>(Section B) Non-Linear Dimension Reduction Techniques</h1>
 
     <h2>Kernel PCA</h2>
 
@@ -258,17 +254,24 @@ X, y = mnist.data, mnist.target.astype(int)
       <img src="spectral12_labeled_2d_tuned.png" alt="Spectral Embedding 2D Projection (Tuned)">
         
 
-    <h2> Classical MDS </h2>
+    <h2> Classical & Metric MDS </h2>
 
     <p>
-        ...
+      The primary hyperparameter tuned for both MDS variants was the number of components (<code>n_components</code>). 
+      Metric MDS proved computationally expensive, taking significantly longer to converge, while Classical MDS—though faster—still achieved stronger downstream classification performance. 
+      The optimal dimensionality appeared to be around 40 components, as indicated by the accuracy trend below.
     </p>
-
-    <h2> Metric MDS </h2>
+    
+    <img src="mds_accuracy_comparison.png" alt="MDS Hyperparameter Tuning">
     
     <p>
-        ...
+      The 2D visualizations below show that neither MDS variant produced particularly distinct clusters for the MNIST digits, 
+      and the overall fitting process was quite slow. 
+      For this dataset, MDS does not seem well-suited compared to other manifold learning methods.
     </p>
+    
+    <img src="mds_metric_vs_classical_2d.png" alt="MDS 2D Projection (Tuned)">
+      
 
     <h2> t-SNE </h2>
 
@@ -292,7 +295,7 @@ X, y = mnist.data, mnist.target.astype(int)
     <img src="tsne_hyperparam_heatmap.png" alt="t-SNE 2D Projection (Tuned)">
       
     <p>
-      This 2d visual using the tuned hyperparameters from the gridsearch above yield a very nice visual representation. 
+      This 2d visual using the tuned hyperparameters from the gridsearch above yield an okay visual representation but does not clearly distinguish clusters. 
       Each class appears to have great seperation.
     </p>
     
