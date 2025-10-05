@@ -216,11 +216,26 @@ X, y = mnist.data, mnist.target.astype(int)
   <section id="nonlinear-methods">
     <h1>Non-Linear Dimension Reduction Techniques</h1>
 
-    <h2> Kernel PCA </h2>
+    <h2>Kernel PCA</h2>
 
     <p>
-        ...
+    Kernel PCA was applied using an RBF kernel (chosen as it generally performs best for nonlinear structure extraction, so the kernel type itself was not treated as a tunable parameter). 
+    Due to computational constraints, I used a subsample of the MNIST dataset for hyperparameter tuning. 
+    A grid search was conducted over the number of components (<i>r</i>) and the kernel width parameter (γ). 
+    For each combination, I fit a multinomial logistic regression model on the transformed features and recorded the test accuracy. 
+    The heatmap below shows the results of this supervised downstream evaluation, with the optimal parameter setting highlighted.
     </p>
+    
+    <img src="kernelpca_hyperparam_heatmap.png" alt="Kernel PCA Hyperparameter Heatmap">
+    
+    <p>
+    Next, I refit Kernel PCA using the best-performing γ value, projecting the data into two dimensions for visualization. 
+    This 2D plot is provided purely for qualitative interpretation — the components in Kernel PCA are not nested or variance-ordered, 
+    so the first two components do not necessarily represent the most informative directions in the higher-dimensional feature space.
+    </p>
+    
+    <img src="kernelpca12_labeled_2d_tuned.png" alt="Kernel PCA 2D Projection (Tuned)">
+    
 
     <h2> Spectral Embedding </h2>
 
