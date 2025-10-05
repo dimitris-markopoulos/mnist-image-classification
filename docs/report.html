@@ -236,12 +236,27 @@ X, y = mnist.data, mnist.target.astype(int)
     
     <img src="kernelpca12_labeled_2d_tuned.png" alt="Kernel PCA 2D Projection (Tuned)">
     
+      <h2>Spectral Embedding</h2>
 
-    <h2> Spectral Embedding </h2>
-
-    <p>
-        ...
-    </p>
+      <p>
+      Spectral Embedding is a graph-based manifold learning method that depends on <code>n_neighbors</code> and <code>n_components</code>. 
+      It generally performs best with a small number of neighbors since it preserves <b>local</b> structure rather than global relationships—similarities can only be meaningfully interpreted within each neighborhood. 
+      Due to computational constraints, a subsample of the MNIST dataset was used for hyperparameter tuning. 
+      A grid search was performed over the number of components and neighbors. 
+      For each combination, a multinomial logistic regression model was fit on the embedded data and evaluated on held-out observations. 
+      The heatmap below displays the resulting test accuracies from this supervised downstream evaluation, with the optimal setting highlighted.
+      </p>
+      
+      <img src="spectral_hyperparam_heatmap.png" alt="Spectral Embedding Hyperparameter Heatmap">
+      
+      <p>
+      Next, I refit Spectral Embedding using the best-performing <code>n_neighbors</code> value and projected the data into two dimensions for visualization. 
+      When the graph was not fully connected, the next-best neighbor value was used to ensure stable eigen-decomposition. 
+      The resulting embedding below reveals distinct local groupings, with certain digits—such as 6—showing particularly strong separation.
+      </p>
+      
+      <img src="spectral12_labeled_2d_tuned.png" alt="Spectral Embedding 2D Projection (Tuned)">
+        
 
     <h2> Classical MDS </h2>
 
