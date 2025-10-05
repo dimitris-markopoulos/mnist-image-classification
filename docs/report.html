@@ -302,8 +302,34 @@ X, y = mnist.data, mnist.target.astype(int)
     <h2> UMAP </h2>
 
     <p>
-        ...
+    Uniform Manifold Approximation and Projection (UMAP) is a nonlinear manifold learning algorithm that balances the preservation of both local and global structure in data. 
+    Unlike t-SNE, which focuses primarily on local neighborhood preservation, UMAP constructs a weighted graph of nearest neighbors and optimizes a low-dimensional representation that maintains the manifold's overall topology. 
+    For this reason, UMAP can reveal broader structural relationships while still achieving sharp local clustering.
     </p>
+
+    <p>
+    Two key hyperparameters—<code>n_neighbors</code> and <code>min_dist</code>—were tuned via grid search. 
+    The <code>n_neighbors</code> parameter controls the size of the local neighborhood used for manifold approximation; smaller values emphasize fine-grained local structure, while larger values capture more global patterns. 
+    The <code>min_dist</code> parameter determines how tightly UMAP packs points together in the low-dimensional embedding—lower values produce more compact clusters, whereas higher values yield smoother, more diffuse representations. 
+    Each combination was evaluated using a multinomial logistic classification probe trained on the resulting embeddings to measure downstream classification accuracy.
+    </p>
+
+    <p>
+    The heatmap below visualizes test accuracies over the <code>(n_neighbors, min_dist)</code> grid, with the optimal configuration highlighted. 
+    UMAP achieved its best downstream accuracy with a neighborhood size of 25 and <code>min_dist</code> of 0.3, striking a balance between local continuity and global manifold preservation.
+    </p>
+
+    <img src="umap_hyperparam_heatmap.png" alt="UMAP Hyperparameter Tuning Heatmap">
+
+    <p>
+      The 2D embedding visualized below corresponds to the tuned hyperparameters from the grid search. 
+      The result shows well-separated clusters corresponding to different digits. 
+      In a purely unsupervised setting, I find UMAP's 2D representations the most interpretable so far — we see clear grouping of the digits <code>0</code>, <code>1</code>, <code>2</code>, and <code>6</code>, 
+      along with merged groupings of digits {<code>4</code>, <code>9</code>, <code>7</code>} and {<code>3</code>, <code>8</code>, <code>5</code>}, 
+      which makes intuitive sense since the MNIST hand-drawn digits often exhibit ambiguity between these shapes due to handwriting variation.
+    </p>
+
+    <img src="umap12_labeled_2d_tuned.png" alt="UMAP 2D Projection (Tuned)">
 
     <h2> Autoencoder </h2>
 
