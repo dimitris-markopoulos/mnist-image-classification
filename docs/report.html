@@ -273,8 +273,31 @@ X, y = mnist.data, mnist.target.astype(int)
     <h2> t-SNE </h2>
 
     <p>
-        ...
+    t-Distributed Stochastic Neighbor Embedding (t-SNE) is a nonlinear manifold learning technique designed primarily for visualization in two or three dimensions. 
+    It models pairwise similarities between points in the high-dimensional space and seeks a low-dimensional embedding that preserves local neighborhood relationships. 
+    Because t-SNE is not intended for high-dimensional projections, <code>n_components</code> was fixed to 2 for all experiments to ensure meaningful and stable embeddings suitable for visual interpretation.
     </p>
+    
+    <p>
+    Two key hyperparameters—<code>perplexity</code> and <code>learning_rate</code>—were tuned via grid search. 
+    Perplexity controls the effective number of neighbors considered when constructing local probability distributions: small values emphasize very local structure, while larger values capture more global relationships. 
+    The learning rate determines the step size during optimization; overly small values may collapse clusters, whereas large values can cause divergence or unstable embeddings. 
+    A multinomial logistic regression probe was fit on the resulting embeddings to quantify downstream separability, and accuracy scores were recorded for each hyperparameter combination.
+    </p>
+    
+    <p>
+    The figure below presents the heatmap of test accuracies across perplexity-learning rate pairs, with the best-performing setting highlighted. 
+    The grid search revealed that t-SNE achieved its highest downstream classification accuracy at a moderate perplexity and learning rate, confirming the method's preference for preserving local neighborhoods over global structure. 
+    </p>
+    <img src="tsne_hyperparam_heatmap.png" alt="t-SNE 2D Projection (Tuned)">
+      
+    <p>
+      This 2d visual using the tuned hyperparameters from the gridsearch above yield a very nice visual representation. 
+      Each class appears to have great seperation.
+    </p>
+    
+    <img src="tsne12_labeled_2d_tuned.png" alt="t-SNE Hyperparameter Tuning Heatmap">
+    
 
     <h2> UMAP </h2>
 
