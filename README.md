@@ -6,7 +6,7 @@ This repository presents two complementary analyses on the MNIST handwritten dig
 
 ## Part 1 – Classical Classification Methods  
 **Notebook:** `notebooks/MNIST_ImageClassification.ipynb`  
-**Report (PDF):** [View here](./notebooks/mnist.pdf)
+**Report (PDF):** [View here](./notebooks/01_MNIST_ImageClassification_Report.pdf), [View here](./notebooks/03_GroupLassoMultinomialRegressionReport.pdf)
 
 This section compares classical supervised classifiers including Logistic Regression (OVR & Multinomial), LDA, Naive Bayes, and Linear SVM on digits {3, 5, 8}.  
 Multinomial Regression achieved the best accuracy (~93.8%) while maintaining interpretability. Runtime trade-offs were also analyzed.  
