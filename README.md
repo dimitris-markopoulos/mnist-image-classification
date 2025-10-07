@@ -18,7 +18,7 @@ These results are summarized in `mnist.pdf`, which includes detailed comparisons
 ---
 
 ## Part 2 – Unsupervised Representation Learning  
-**Website:** [View Interactive Report](https://<your-github-pages-link>)  
+**Website:** [View Interactive Report](https://dimitris-markopoulos.github.io/mnist-image-classification/)
 
 This section explores linear (PCA, NMF, ICA) and non-linear (Kernel PCA, Spectral Embedding, t-SNE, UMAP, Autoencoder) dimensionality reduction methods.  
 Each technique was tuned using downstream KNN or K-means evaluations, and assessed quantitatively with the Adjusted Rand Index (ARI).  
