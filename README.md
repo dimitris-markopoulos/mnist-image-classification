@@ -1,29 +1,42 @@
-## MNIST Digit Project
+# MNIST Project
 
-This repository contains my work on classifying MNIST handwritten digits, specifically focusing on distinguishing between digits 3, 5, and 8. I've implemented and compared several classification algorithms:
+This repository presents two complementary analyses on the MNIST handwritten digits dataset:
 
-⊳ Logistic Regression (One-vs-Rest)
+---
 
-⊳ Multinomial Regression
+## Part 1 – Classical Classification Methods  
+**Notebook:** `notebooks/MNIST_ImageClassification.ipynb`  
+**Report (PDF):** [View here](./notebooks/mnist.pdf)
 
-⊳ Naive Bayes (Gaussian and Bernoulli)
+This section compares classical supervised classifiers including Logistic Regression (OVR & Multinomial), LDA, Naive Bayes, and Linear SVM on digits {3, 5, 8}.  
+Multinomial Regression achieved the best accuracy (~93.8%) while maintaining interpretability. Runtime trade-offs were also analyzed.  
 
-⊳ Linear Discriminant Analysis
+A secondary experiment using Group LASSO Multinomial Regression introduced structured feature selection and spatial grouping of pixels, improving interpretability and runtime efficiency.  
 
-⊳ Linear SVM (One-vs-Rest)
+These results are summarized in `mnist.pdf`, which includes detailed comparisons, confusion matrices, and reflections on model behavior.
 
-Furthermore, I have implementented Group LASSO Multinomial Regression to perform feature selection on the 28x28 image and determine which pixels are significant in classification of the image to digits 3, 5, or 8.  I have implemented this strategy with multiple grouping methods and provided results in notebook 2.
+---
 
-## Key Findings:
+## Part 2 – Unsupervised Representation Learning  
+**Website:** [View Interactive Report](https://<your-github-pages-link>)  
 
-Achieved 93.8% accuracy with Multinomial Regression
-Demonstrated why Bernoulli Naive Bayes (87.3%) significantly outperforms Gaussian Naive Bayes (47.8%) for this dataset
-Created detailed confusion matrices and performance visualizations for all models
+This section explores linear (PCA, NMF, ICA) and non-linear (Kernel PCA, Spectral Embedding, t-SNE, UMAP, Autoencoder) dimensionality reduction methods.  
+Each technique was tuned using downstream KNN or K-means evaluations, and assessed quantitatively with the Adjusted Rand Index (ARI).  
 
-## Technologies Used:
+**Key Finding:**  
+UMAP achieved the strongest performance, yielding the highest ARI (~0.51) and producing the most interpretable 2D manifold visualization.  
 
-⊳ Python (scikit-learn, pandas, numpy)
+---
 
-⊳ Data visualization (matplotlib, seaborn)
+## Summary
+| Part | Focus | Core Method | Best Performer | Deliverable |
+|------|--------|--------------|----------------|--------------|
+| 1 | Supervised Classification | Logistic & Group LASSO Regression | Multinomial Regression (~93.8%) | `mnist.pdf` |
+| 2 | Unsupervised Dimensionality Reduction | UMAP, t-SNE, Kernel PCA, etc. | UMAP (ARI ≈ 0.51) | Interactive HTML report |
 
-⊳ Statistical analysis and model evaluation
+---
+
+**Note:**  
+Part 1 is provided as a static PDF report located in the `notebooks` subfolder.  
+Part 2 is hosted as a live interactive visualization via GitHub Pages.
+
